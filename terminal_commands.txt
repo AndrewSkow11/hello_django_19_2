@@ -28,3 +28,6 @@ Installing collected packages: pip
 Successfully installed pip-23.3.2
 (django_env) andrejskovorodnikov@MacBook-Air-Andrej hello_django_19_2 % pip freeze > requirements.txt
 (django_env) andrejskovorodnikov@MacBook-Air-Andrej hello_django_19_2 %
+
+
+python3 manage.py startapp catalog
