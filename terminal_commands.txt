@@ -1,0 +1,30 @@
+task 1 start project
+
+andrejskovorodnikov@MacBook-Air-Andrej hello_django_19_2 % python3 -m venv django_env
+andrejskovorodnikov@MacBook-Air-Andrej hello_django_19_2 % source django_env/bin/activate
+(django_env) andrejskovorodnikov@MacBook-Air-Andrej hello_django_19_2 % django-admin startproject config .
+(django_env) andrejskovorodnikov@MacBook-Air-Andrej hello_django_19_2 % pip install django
+Collecting django
+  Using cached Django-5.0.1-py3-none-any.whl (8.1 MB)
+Collecting asgiref<4,>=3.7.0
+  Using cached asgiref-3.7.2-py3-none-any.whl (24 kB)
+Collecting sqlparse>=0.3.1
+  Using cached sqlparse-0.4.4-py3-none-any.whl (41 kB)
+Installing collected packages: sqlparse, asgiref, django
+Successfully installed asgiref-3.7.2 django-5.0.1 sqlparse-0.4.4
+
+[notice] A new release of pip available: 22.3.1 -> 23.3.2
+[notice] To update, run: pip install --upgrade pip
+(django_env) andrejskovorodnikov@MacBook-Air-Andrej hello_django_19_2 % pip install --upgrade pip
+
+Requirement already satisfied: pip in ./django_env/lib/python3.11/site-packages (22.3.1)
+Collecting pip
+  Using cached pip-23.3.2-py3-none-any.whl (2.1 MB)
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 22.3.1
+    Uninstalling pip-22.3.1:
+      Successfully uninstalled pip-22.3.1
+Successfully installed pip-23.3.2
+(django_env) andrejskovorodnikov@MacBook-Air-Andrej hello_django_19_2 % pip freeze > requirements.txt
+(django_env) andrejskovorodnikov@MacBook-Air-Andrej hello_django_19_2 %
