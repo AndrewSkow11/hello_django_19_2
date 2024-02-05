@@ -1,0 +1,13 @@
+db_for_django_project
+
+% psql -U postgres
+Password for user postgres:
+psql (14.10 (Homebrew), server 16.1)
+WARNING: psql major version 14, server major version 16.
+         Some psql features might not work.
+Type "help" for help.
+
+postgres=# create database db_for_django_project;
+CREATE DATABASE
+postgres=#
+
