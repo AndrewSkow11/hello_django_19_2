@@ -8,8 +8,6 @@ from catalog.models import Category, Product
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'nomination')
-    # list_filter = (список_полей_для_фильтрации)
-    # search_fields = (список_полей_для_поиска)
 
 
 @admin.register(Product)
