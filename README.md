@@ -12,4 +12,13 @@ CREATE DATABASE
 ```
 - Создать файл .env, в котором задать значение переменной POSTGRES_PASSWORD (пароль базы данных)
 
+- Для работы с административной панелью Django необходимо создать суперпользователя (типичный сценарий представлен ниже):
+```commandline
+% python3 manage.py createsuperuser
+Username : admin
+Email address:  
+Password: 
+Password (again): 
+Superuser created successfully.
+```
 
