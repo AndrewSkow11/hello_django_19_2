@@ -26,13 +26,18 @@ class Product(models.Model):
     # Категория
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     # Цена за покупку
-    price = models.DecimalField()
+    price = models.DecimalField(decimal_places=3, max_digits=10)
     # Дата создания (записи в БД)
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name='дата создания')
     # Дата последнего изменения (записи в БД)
     updated_at = models.DateTimeField(auto_now=True,
                                       verbose_name='дата изменения')
+
+    # manufactured_at
+    manufactured_at = models.DateTimeField(null=True, blank=True,
+                                           verbose_name='Дата производства продукта')
+
 
     def __str__(self):
         # Строковое отображение объекта
@@ -42,7 +47,8 @@ class Product(models.Model):
                 f'{self.category} '
                 f'{self.price} '
                 f'{self.created_at} '
-                f'{self.updated_at}')
+                f'{self.updated_at}'
+                f'{self.manufactured_at}')
 
     class Meta:
         verbose_name = 'продукт'  # Настройка для наименования одного объекта
