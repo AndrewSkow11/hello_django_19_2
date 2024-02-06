@@ -34,7 +34,6 @@ class Command(BaseCommand):
 
         return products_list
 
-
     def handle(self, *args, **options):
         # Удалите все продукты
         Product.objects.all().delete()
@@ -50,7 +49,7 @@ class Command(BaseCommand):
             category_for_create.append(Category(pk=category_item['pk'],
                                                 nomination=category_item['fields']['nomination'],
                                                 description=category_item['fields']['description'],
-                ))
+                                                ))
 
         Category.objects.bulk_create(category_for_create)
 
@@ -59,14 +58,14 @@ class Command(BaseCommand):
             product_for_create.append(
                 Product(pk=product['pk'],
                         nomination=product['fields']['nomination'],
-                    description=product['fields']['description'],
-                    imagine_url=product['fields']['imagine_url'],
-                    # получаем категорию из базы данных для корректной связки объектов
-                    category=Category.objects.get(pk=product['fields']['category']),
-                    price=product['fields']['price'],
-                    created_at=product['fields']['created_at'],
-                    updated_at=product['fields']['updated_at'],
-                    manufactured_at=product['fields']['manufactured_at']
-            ))
+                        description=product['fields']['description'],
+                        imagine_url=product['fields']['imagine_url'],
+                        # получаем категорию из базы данных для корректной связки объектов
+                        category=Category.objects.get(pk=product['fields']['category']),
+                        price=product['fields']['price'],
+                        created_at=product['fields']['created_at'],
+                        updated_at=product['fields']['updated_at'],
+                        manufactured_at=product['fields']['manufactured_at']
+                        ))
 
         Product.objects.bulk_create(product_for_create)
