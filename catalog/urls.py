@@ -7,7 +7,7 @@ from catalog.views import *
 app_name = 'catalog'
 
 urlpatterns = [
-    path('', ProductsView.as_view(), name='home'),
-    path('contacts/', contacts, name='contacts'),
-    path('products/<int:pk>', product, name='products'),
+    path('', ProductView.as_view(), name='home'),
+    path('contacts/', ContactView.as_view(), name='contacts'),
+    path('view/<int:pk>', ProductDetailView.as_view(), name='view'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
