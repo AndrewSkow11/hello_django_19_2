@@ -16,7 +16,7 @@ from django.db import models
 
 class Note(models.Model):
     header = models.CharField(max_length=150, verbose_name='заголовок')
-    slug = models.CharField(max_length=170, verbose_name='транслит')
+    slug = models.CharField(max_length=170, verbose_name='транслит (слаг)', blank=True, null=True)
     content = models.TextField(verbose_name='содержимое заметки')
     preview = models.ImageField(upload_to='notes/', verbose_name='изображение',
                                 null=True, blank=True)

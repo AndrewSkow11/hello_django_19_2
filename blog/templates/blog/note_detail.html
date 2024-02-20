@@ -15,8 +15,8 @@
 
     <h5 class="card-title">{{ object.header | upper}}</h5>
     <p class="card-text">{{ object.content }}</p>
-
     <img src="{{object.preview|show_img }}" alt="Фото" style="width:20%;">
+    <p>Просмотры: {{ object.count_view }}</p>
 
 
   </div>
