@@ -23,5 +23,7 @@ class Note(models.Model):
     created_at = models.DateTimeField(auto_now_add=True,
                                       verbose_name='дата создания')
     is_published = models.BooleanField(default=True, verbose_name='признак публикации')
-    count_view = models.IntegerField(verbose_name='количество просмотров')
+    count_view = models.IntegerField(verbose_name='количество просмотров', default=0)
 
+    def __str__(self):
+        return self.header
