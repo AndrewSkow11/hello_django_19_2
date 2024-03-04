@@ -8,8 +8,15 @@
     <p class="lead">Купи сегодня то, о чём не пожалеешь завтра ...</p>
 </div>
 
+
 <div class="container">
     <div class="row text-center">
+
+        <div class="col-12 mb-5">
+            <a class="btn btn-outline-primary" href="{% url 'catalog:create_product' %}">
+                Добавить продукт
+            </a>
+        </div>
 
         {% for object in object_list %}
 
@@ -27,9 +34,20 @@
                         {{ object.description |truncatechars:100 }}
                     </p>
                     <a href="/view/{{object.pk}}">
-                        <button type="button" class="btn btn-lg btn-block btn-outline-primary">Подробности с картинкой
+                        <button type="button" class="btn btn-lg btn-block btn-outline-primary">Просмотреть
                         </button>
                     </a>
+
+                    <a href="{% url 'catalog:update_product' object.pk %}">
+                        <button type="button" class="btn btn-lg btn-block btn-outline-primary">Редактировать
+                        </button>
+                    </a>
+
+                    <a href="{% url 'catalog:delete_product' object.pk %}">
+                        <button type="button" class="btn btn-lg btn-block btn-outline-primary">Удалить
+                        </button>
+                    </a>
+
                 </div>
 
             </div>
