@@ -2,8 +2,15 @@ from django import forms
 
 from catalog.models import Product
 
-class ProductForm(forms.ModelForm):
 
+class StyleFormMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+
+
+class ProductForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Product
         fields = '__all__'
@@ -27,17 +34,10 @@ class ProductForm(forms.ModelForm):
 
         return nomination
 
-    # def clean_nomination(self):
-    #     cleaned_data = self.cleaned_data.get('nomination')
-    #
-    #     if '1234' not in cleaned_data:
-    #         raise forms.ValidationError('Очень плохое слово')
+    def clean_description(self):
+        description = self.cleaned_data['description']
+        for word in self.stop_words:
+            if word in self.stop_words:
+                raise forms.ValidationError(f'Запрещено использовать {self.stop_words}')
 
-            # for word in self.stop_words:
-            #     if word in cleaned_data:
-            #         raise forms.ValidationError('Ипользовано запрещённое слово')
-
-        return cleaned_data
-
-        # def clean_description(self):
-
+        return description
