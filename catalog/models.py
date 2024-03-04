@@ -1,6 +1,39 @@
 from django.db import models
 
 
+# Задание 2
+# Добавьте новую модель «Версия», которая должна содержать следующие поля:
+# продукт,
+# номер версии,
+# название версии,
+# признак текущей версии.
+
+
+# При наличии активной версии реализуйте вывод в список продуктов информации об активной версии.
+# Признак текущей версии — булево поле, является ли версия для продукта текущей для отображения на сайте или нет.
+# Для отображения активной версии расширьте метод
+# get_context_data()
+#  контроллера списка продуктов, получите данные о версиях продукта и выберите текущую (активную) версию для продукта.
+#
+
+class Version(models.Model):
+    # продукт,
+    # product = models.ForeignKey('Product', verbose_name="Product")
+    # номер версии,
+    # number =
+    # название версии,
+    # nomination =
+    # признак текущей версии
+    is_current = models.BooleanField(default=False, verbose_name='текущая')
+
+    def __str__(self):
+        return ''
+
+    class Meta:
+        verbose_name = 'версия'
+        verbose_name_plural = 'версии'
+
+
 class Category(models.Model):
     nomination = models.CharField(max_length=150, verbose_name='наименование')
     description = models.CharField(max_length=150, verbose_name='описание')
@@ -37,7 +70,6 @@ class Product(models.Model):
     # manufactured_at
     manufactured_at = models.DateTimeField(null=True, blank=True,
                                            verbose_name='Дата производства продукта')
-
 
     def __str__(self):
         # Строковое отображение объекта
