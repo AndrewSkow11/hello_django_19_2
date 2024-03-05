@@ -1,4 +1,6 @@
 {% extends 'catalog/base.html' %}
+{% load crispy_forms_tags %}
+
 
 {% block content %}
 
@@ -35,6 +37,9 @@
                 {{ formset.management_form }}
                 {% for form in formset.forms %}
                 {{ form.as_p }}
+                {% if forloop.revcounter0 != 0 %}
+                <hr>
+                {% endif %}
                 {% endfor %}
             </div>
 

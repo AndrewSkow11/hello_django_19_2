@@ -1,5 +1,5 @@
 from django.db import models
-
+from django import forms
 
 # Задание 2
 # Добавьте новую модель «Версия», которая должна содержать следующие поля:
@@ -77,6 +77,7 @@ class Version(models.Model):
     number = models.IntegerField(verbose_name='номер версии')
     nomination = models.CharField(max_length=50, verbose_name='название')
     is_current = models.BooleanField(default=True, verbose_name='текущая')
+
 
     def __str__(self):
         return f'{self.number}, ({self.nomination})'
