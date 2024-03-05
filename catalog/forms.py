@@ -1,6 +1,6 @@
 from django import forms
 
-from catalog.models import Product
+from catalog.models import Product, Version
 
 
 class StyleFormMixin:
@@ -31,13 +31,19 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
         for word in self.stop_words:
             if word in nomination:
                 raise forms.ValidationError(f'Запрещено использовать {self.stop_words}')
-
         return nomination
 
     def clean_description(self):
         description = self.cleaned_data['description']
         for word in self.stop_words:
-            if word in self.stop_words:
+            if word in description:
                 raise forms.ValidationError(f'Запрещено использовать {self.stop_words}')
 
         return description
+
+
+class VersionForm(forms.ModelForm):
+    class Meta:
+        model = Version
+        fields = '__all__'
+

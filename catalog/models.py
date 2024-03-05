@@ -16,22 +16,7 @@ from django.db import models
 #  контроллера списка продуктов, получите данные о версиях продукта и выберите текущую (активную) версию для продукта.
 #
 
-class Version(models.Model):
-    # продукт,
-    # product = models.ForeignKey('Product', verbose_name="Product")
-    # номер версии,
-    # number =
-    # название версии,
-    # nomination =
-    # признак текущей версии
-    is_current = models.BooleanField(default=False, verbose_name='текущая')
 
-    def __str__(self):
-        return ''
-
-    class Meta:
-        verbose_name = 'версия'
-        verbose_name_plural = 'версии'
 
 
 class Category(models.Model):
@@ -85,3 +70,17 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'продукт'  # Настройка для наименования одного объекта
         verbose_name_plural = 'продукты'  # Настройка для наименования набора объектов
+
+
+class Version(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Product")
+    number = models.IntegerField(verbose_name='номер версии')
+    nomination = models.CharField(max_length=50, verbose_name='название')
+    is_current = models.BooleanField(default=True, verbose_name='текущая')
+
+    def __str__(self):
+        return f'{self.number}, ({self.nomination})'
+
+    class Meta:
+        verbose_name = 'версия'
+        verbose_name_plural = 'версии'
