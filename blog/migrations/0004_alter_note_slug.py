@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='note',
             name='slug',
-            field=models.CharField(blank=True, max_length=170, null=True, verbose_name='транслит (слаг)'),
+            field=models.CharField(blank=True,
+                                   max_length=170, null=True,
+                                   verbose_name='транслит (слаг)'),
         ),
     ]

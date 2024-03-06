@@ -1,5 +1,5 @@
 from django.db import models
-from django import forms
+
 
 class Category(models.Model):
     nomination = models.CharField(max_length=150, verbose_name='наименование')
@@ -10,8 +10,8 @@ class Category(models.Model):
         return f'{self.nomination} ({self.description})'
 
     class Meta:
-        verbose_name = 'категория'  # Настройка для наименования одного объекта
-        verbose_name_plural = 'категории'  # Настройка для наименования набора объектов
+        verbose_name = 'категория'
+        verbose_name_plural = 'категории'
 
 
 class Product(models.Model):
@@ -35,8 +35,10 @@ class Product(models.Model):
                                       verbose_name='дата изменения')
 
     # manufactured_at
-    manufactured_at = models.DateTimeField(null=True, blank=True,
-                                           verbose_name='Дата производства продукта')
+    manufactured_at = models.DateTimeField(null=True,
+                                           blank=True,
+                                           verbose_name='Дата производства'
+                                                        ' продукта')
 
     def __str__(self):
         # Строковое отображение объекта
@@ -50,16 +52,16 @@ class Product(models.Model):
                 f'{self.manufactured_at}')
 
     class Meta:
-        verbose_name = 'продукт'  # Настройка для наименования одного объекта
-        verbose_name_plural = 'продукты'  # Настройка для наименования набора объектов
+        verbose_name = 'продукт'
+        verbose_name_plural = 'продукты'
 
 
 class Version(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Product")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,
+                                verbose_name="Product")
     number = models.IntegerField(verbose_name='номер версии')
     nomination = models.CharField(max_length=50, verbose_name='название')
     is_current = models.BooleanField(default=True, verbose_name='текущая')
-
 
     def __str__(self):
         return f'{self.number} ({self.nomination})'

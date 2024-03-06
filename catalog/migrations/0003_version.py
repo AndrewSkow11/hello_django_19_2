@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('catalog', '0002_product_manufactured_at'),
     ]
@@ -14,11 +13,18 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Version',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True,
+                                           serialize=False,
+                                           verbose_name='ID')),
                 ('number', models.FloatField(verbose_name='номер версии')),
-                ('nomination', models.CharField(max_length=50, verbose_name='название')),
-                ('is_current', models.BooleanField(default=False, verbose_name='текущая')),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='catalog.product', verbose_name='Product')),
+                ('nomination', models.CharField(max_length=50,
+                                                verbose_name='название')),
+                ('is_current', models.BooleanField(default=False,
+                                                   verbose_name='текущая')),
+                ('product',
+                 models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                   to='catalog.product',
+                                   verbose_name='Product')),
             ],
             options={
                 'verbose_name': 'версия',

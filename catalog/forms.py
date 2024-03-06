@@ -14,19 +14,10 @@ class StyleFormMixin:
                 field.widget.attrs['class'] = 'form-control'
 
 
-
 class ProductForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Product
         fields = '__all__'
-        # fields = ('nomination',
-        #           'description',
-        #           'imagine_url',
-        #           'category',
-        #           'created_at',
-        #           'updated_at',
-        #           'manufactured_at')
-        # exclude =  ('manufactured_at', )
 
     stop_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево',
                   'бесплатно', 'обман', 'полиция', 'радар']
@@ -35,14 +26,16 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
         nomination = self.cleaned_data['nomination']
         for word in self.stop_words:
             if word in nomination:
-                raise forms.ValidationError(f'Запрещено использовать {self.stop_words}')
+                raise forms.ValidationError(f'Запрещено использовать'
+                                            f' {self.stop_words}')
         return nomination
 
     def clean_description(self):
         description = self.cleaned_data['description']
         for word in self.stop_words:
             if word in description:
-                raise forms.ValidationError(f'Запрещено использовать {self.stop_words}')
+                raise forms.ValidationError(f'Запрещено использовать'
+                                            f' {self.stop_words}')
 
         return description
 
@@ -52,4 +45,5 @@ class VersionForm(StyleFormMixin, forms.ModelForm):
         model = Version
         fields = '__all__'
 
-        name = forms.CharField(widget=forms.TextInput(attrs={"class": "myfield"}))
+        name = forms.CharField(widget=forms.TextInput(
+            attrs={"class": "myfield"}))

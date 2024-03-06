@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView
+from django.views.generic import (CreateView, ListView, DetailView,
+                                  DeleteView, UpdateView)
 from pytils.translit import slugify
 
 from blog.models import Note
@@ -42,7 +43,6 @@ class NoteUpdateView(UpdateView):
         'is_published',
     ]
 
-
     def form_valid(self, form):
         if form.is_valid():
             new_note = form.save()
@@ -74,9 +74,8 @@ class NoteListView(ListView):
 class NoteDetailView(DetailView):
     model = Note
 
-    def get_object(self, queryset = None):
+    def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
         self.object.count_view += 1
         self.object.save()
         return self.object
-

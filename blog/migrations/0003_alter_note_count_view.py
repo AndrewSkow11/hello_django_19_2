@@ -13,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='note',
             name='count_view',
-            field=models.IntegerField(default=0, verbose_name='количество просмотров'),
+            field=models.IntegerField(default=0,
+                                      verbose_name='количество просмотров'),
         ),
     ]

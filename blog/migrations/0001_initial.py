@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -14,14 +13,26 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Note',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nomination', models.CharField(max_length=150, verbose_name='заголовок')),
-                ('slug', models.CharField(max_length=170, verbose_name='транслит')),
-                ('content', models.TextField(verbose_name='содержимое заметки')),
-                ('preview', models.ImageField(blank=True, null=True, upload_to='notes/', verbose_name='изображение')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='дата создания')),
-                ('is_published', models.BooleanField(default=True, verbose_name='признак публикации')),
-                ('count_view', models.IntegerField(verbose_name='количество просмотров')),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True,
+                                           serialize=False,
+                                           verbose_name='ID')),
+                ('nomination', models.CharField(max_length=150,
+                                                verbose_name='заголовок')),
+                ('slug', models.CharField(max_length=170,
+                                          verbose_name='транслит')),
+                ('content',
+                 models.TextField(verbose_name='содержимое заметки')),
+                ('preview', models.ImageField(blank=True, null=True,
+                                              upload_to='notes/',
+                                              verbose_name='изображение')),
+                ('created_at',
+                 models.DateTimeField(auto_now_add=True,
+                                      verbose_name='дата создания')),
+                ('is_published',
+                 models.BooleanField(default=True,
+                                     verbose_name='признак публикации')),
+                ('count_view',
+                 models.IntegerField(verbose_name='количество просмотров')),
             ],
         ),
     ]
