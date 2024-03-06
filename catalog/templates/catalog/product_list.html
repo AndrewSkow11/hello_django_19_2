@@ -50,13 +50,22 @@
 
                 </div>
 
+                <div class="card-footer">
+                    <h4>Текущие версии: </h4>
+                    {% for version in view.versions %}
+                    {% if version.product == object and version.is_current %}
+                        <p>{{ version }}</p>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+
             </div>
 
 
         </div>
+
+
         {% endfor %}
 
 
-    </div>
-
-    {% endblock %}
+        {% endblock %}

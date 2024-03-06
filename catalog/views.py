@@ -10,7 +10,11 @@ from django.forms import inlineformset_factory
 
 class ProductView(ListView):
     model = Product
-    template = 'catalog/home'
+    # template = 'catalog/home'
+
+    @staticmethod
+    def versions():
+        return Version.objects.all()
 
 
 class ProductDetailView(DetailView):
