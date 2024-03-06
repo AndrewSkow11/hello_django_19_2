@@ -7,7 +7,6 @@ class StyleFormMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            print(field_name)
             if field_name == 'is_current':
                 field.widget.attrs['class'] = 'form-check-input'
             else:
