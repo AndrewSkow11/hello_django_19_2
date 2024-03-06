@@ -1,24 +1,6 @@
 from django.db import models
 from django import forms
 
-# Задание 2
-# Добавьте новую модель «Версия», которая должна содержать следующие поля:
-# продукт,
-# номер версии,
-# название версии,
-# признак текущей версии.
-
-
-# При наличии активной версии реализуйте вывод в список продуктов информации об активной версии.
-# Признак текущей версии — булево поле, является ли версия для продукта текущей для отображения на сайте или нет.
-# Для отображения активной версии расширьте метод
-# get_context_data()
-#  контроллера списка продуктов, получите данные о версиях продукта и выберите текущую (активную) версию для продукта.
-#
-
-
-
-
 class Category(models.Model):
     nomination = models.CharField(max_length=150, verbose_name='наименование')
     description = models.CharField(max_length=150, verbose_name='описание')
@@ -80,7 +62,7 @@ class Version(models.Model):
 
 
     def __str__(self):
-        return f'{self.number}, ({self.nomination})'
+        return f'{self.number} ({self.nomination})'
 
     class Meta:
         verbose_name = 'версия'
