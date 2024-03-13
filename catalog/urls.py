@@ -21,4 +21,4 @@ urlpatterns = [
                        name='update_product'),
                   path('delete/<int:pk>', ProductDeleteView.as_view(),
                        name='delete_product'),
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+              ]
