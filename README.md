@@ -21,7 +21,11 @@ CREATE DATABASE
 - email: admin@admin.ru,
 - password: 1234
 ```commandline
-    python3 manage.py create_superuser
+python3 manage.py create_superuser
 ```
 
+- Рекомендуется также обновить сертификаты
+```commandline
+pip install --upgrade certifi
+```
 
