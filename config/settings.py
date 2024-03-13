@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 import os
 
+
 load_dotenv()
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
@@ -148,8 +149,13 @@ AUTH_USER_MODEL = 'users.User'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 
-EMAIL_HOST = 'smtp.yandex.ru'
+# EMAIL_HOST = 'smtp.yandex.ru'
+# EMAIL_HOST_USER = 'djangoa@yandex.ru'
+# EMAIL_HOST_PASSWORD = 'kirejafcdakqcizx'
+
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST')
+
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 'skovorodnikov48@gmail.com'
-EMAIL_HOST_PASSWORD = 'and666JKL'
 EMAIL_USE_SSL = True

@@ -10,15 +10,18 @@
 postgres=# create database db_for_django_project;
 CREATE DATABASE
 ```
-- Создать файл .env, в котором задать значение переменной POSTGRES_PASSWORD (пароль базы данных)
+- Создать файл .env, в котором задать значение переменных:
+    POSTGRES_PASSWORD (пароль базы данных)
+    EMAIL_HOST=smtp.yandex.ru (пример, можно использовать другой)
+    EMAIL_HOST_USER=example@yandex.ru
+    EMAIL_HOST_PASSWORD=your_application_password
 
-- Для работы с административной панелью Django необходимо создать суперпользователя (типичный сценарий представлен ниже):
+
+- Создать суперпользователя можно командой, по умолчанию:
+- email: admin@admin.ru,
+- password: 1234
 ```commandline
-% python3 manage.py createsuperuser
-Username : admin
-Email address:  
-Password: 
-Password (again): 
-Superuser created successfully.
+    python3 manage.py create_superuser
 ```
+
 
