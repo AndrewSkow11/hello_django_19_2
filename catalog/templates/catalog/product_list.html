@@ -55,8 +55,15 @@
                     {% for version in view.versions %}
                     {% if version.product == object and version.is_current %}
                     <p>{{ version }}</p>
+                    {% else %}
+                    <p>нет информации</p>
                     {% endif %}
                     {% endfor %}
+
+                    <p>Автор: </p>
+                    <p>{{object.author|default:'без автора' }} </p>
+
+
                 </div>
 
             </div>

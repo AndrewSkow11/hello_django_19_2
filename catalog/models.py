@@ -1,4 +1,7 @@
+from django.conf import settings
 from django.db import models
+
+from users.models import NULLABLE
 
 
 class Category(models.Model):
@@ -40,6 +43,10 @@ class Product(models.Model):
                                            verbose_name='Дата производства'
                                                         ' продукта')
 
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.SET_NULL, **NULLABLE,
+                               verbose_name='автор')
+
     def __str__(self):
         # Строковое отображение объекта
         return (f'{self.nomination} '
@@ -49,7 +56,8 @@ class Product(models.Model):
                 f'{self.price} '
                 f'{self.created_at} '
                 f'{self.updated_at}'
-                f'{self.manufactured_at}')
+                f'{self.manufactured_at}'
+                f'{self.author}')
 
     class Meta:
         verbose_name = 'продукт'
