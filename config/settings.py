@@ -44,9 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.sites',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     # user apps
     'catalog',
     'blog',
@@ -157,3 +159,6 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
+
+SITE_ID = 1
+

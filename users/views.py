@@ -1,20 +1,12 @@
-from django.shortcuts import render
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
-from django.views.generic import CreateView
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
+from django.contrib.messages.views import SuccessMessageMixin
+
 from django.urls import reverse_lazy
 from django.core.mail import send_mail
-
+from .forms import UserForgotPasswordForm, UserSetNewPasswordForm
 from django.views.generic import CreateView, View, TemplateView
-# from django.urls import reverse_lazy
-# from django.contrib.auth.tokens import default_token_generator
-# from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-# from django.utils.encoding import force_bytes
-# from django.contrib.sites.models import Site
-# from django.core.mail import send_mail
-# from django.shortcuts import redirect
-# from django.contrib.auth import login
-# from django.contrib.auth import get_user_model
 
 from config import settings
 from users.forms import UserForm
@@ -36,36 +28,45 @@ class RegisterView(CreateView):
     success_url = reverse_lazy('users:login')
     template_name = 'users/register.html'
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['title'] = 'Регистрация на сайте'
-    #     return context
-    #
-    # def form_valid(self, form):
-    #     user = form.save(commit=False)
-    #     user.is_active = False
-    #     user.save()
-    #     # Функционал для отправки письма и генерации токена
-    #     token = default_token_generator.make_token(user)
-    #     uid = urlsafe_base64_encode(force_bytes(user.pk))
-    #     activation_url = reverse_lazy('confirm_email', kwargs={'uidb64': uid, 'token': token})
-    #     current_site = Site.objects.get_current().domain
-    #     send_mail(
-    #         'Подтвердите свой электронный адрес',
-    #         f'Пожалуйста, перейдите по следующей ссылке, чтобы подтвердить свой адрес электронной почты: http://{current_site}{activation_url}',
-    #         'service.notehunter@gmail.com',
-    #         [user.email],
-    #         fail_silently=False,
-    #     )
-    #     return redirect('email_confirmation_sent')
-
     def form_valid(self, form):
         new_user = form.save()
         send_mail(
-            subject='Регистрация в магазине',
-            message='Вы зарегестрировались на нашей платформе',
+            subject='Успешно',
+            message='________________',
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[new_user.email],
         )
         print("Письмо после регистрации отправлено")
         return super().form_valid(form)
+
+
+class UserForgotPasswordView(SuccessMessageMixin, PasswordResetView):
+    """
+    Представление по сбросу пароля по почте
+    """
+    form_class = UserForgotPasswordForm
+    template_name = 'users/user_password_reset.html'
+    success_url = reverse_lazy('home')
+    success_message = 'Письмо с инструкцией по восстановлению пароля отправлена на ваш email'
+    subject_template_name = 'system/email/password_subject_reset_mail.txt'
+    email_template_name = 'system/email/password_reset_mail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Запрос на восстановление пароля'
+        return context
+
+
+class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView):
+    """
+    Представление установки нового пароля
+    """
+    form_class = UserSetNewPasswordForm
+    template_name = 'users/user_password_set_new.html'
+    success_url = reverse_lazy('home')
+    success_message = 'Пароль успешно изменен. Можете авторизоваться на сайте.'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Установить новый пароль'
+        return context
