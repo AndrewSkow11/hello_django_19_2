@@ -157,3 +157,5 @@ EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 
 SITE_ID = 1
+
+LOGIN_URL = '/users'

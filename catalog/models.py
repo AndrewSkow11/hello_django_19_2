@@ -47,6 +47,8 @@ class Product(models.Model):
                                on_delete=models.SET_NULL, **NULLABLE,
                                verbose_name='автор')
 
+    is_published = models.BooleanField(default=False, verbose_name='признак публикации')
+
     def __str__(self):
         # Строковое отображение объекта
         return (f'{self.nomination} '
