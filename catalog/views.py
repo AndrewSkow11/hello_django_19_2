@@ -20,9 +20,12 @@ class ProductView(LoginRequiredMixin, ListView):
     model = Product
 
     def get_queryset(self):
-        return super().get_queryset().filter(
-            author=self.request.user, is_published=True,
-        )
+        queryset = super().get_queryset()
+
+        if not self.request.user.is_staff:
+            queryset = queryset.filter(author=self.request.user, is_published=True)
+
+        return queryset
 
     @staticmethod
     def versions():
@@ -30,18 +33,17 @@ class ProductView(LoginRequiredMixin, ListView):
 
 
 class ProductDetailView(LoginRequiredMixin,
-                        PermissionRequiredMixin, DetailView):
+                        DetailView):
     model = Product
-    permission_required = "catalog.view_product"
+    # permission_required = "catalog.view_product"
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
 
-        if self.object.author != self.request.user:
+        if self.object.author != self.request.user and not self.request.user.is_staff:
             raise Http404
 
         return self.object
-
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -58,10 +60,18 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
-    permission_required = "catalog.change_product"
+    # permission_required = "catalog.change_product"
     form_class = ProductForm
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+
+        if self.object.author != self.request.user and not self.request.user.is_staff:
+            raise Http404
+
+        return self.object
 
     def get_success_url(self, *args, **kwargs):
         return reverse("catalog:update_product", args=[self.get_object().pk])
@@ -80,20 +90,6 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
             context_data["formset"] = VersionFormset(instance=self.object)
         return context_data
 
-
-    def get_queryset(self):
-        """Разрешить редактирование только автору"""
-        return super().get_queryset().filter(author=self.request.user)
-
-    def get_object(self, queryset=None):
-        self.object = super().get_object(queryset)
-        if self.object.author != self.request.user and not self.request.user.is_staff:
-            raise Http404
-        return self.object
-
-
-
-
     def form_valid(self, form):
         context_data = self.get_context_data()
         formset = context_data["formset"]
@@ -106,10 +102,10 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
         return super().form_valid(form)
 
 
-class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
-    permission_required = "catalog.delete_product"
     success_url = reverse_lazy("catalog:home")
+    # permission_required = "catalog.change_product"
 
 
 class ContactView(View):
