@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 
@@ -18,16 +19,29 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 class ProductView(LoginRequiredMixin, ListView):
     model = Product
 
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            author=self.request.user, is_published=True,
+        )
+
     @staticmethod
     def versions():
         return Version.objects.all()
-
 
 
 class ProductDetailView(LoginRequiredMixin,
                         PermissionRequiredMixin, DetailView):
     model = Product
     permission_required = "catalog.view_product"
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+
+        if self.object.author != self.request.user:
+            raise Http404
+
+        return self.object
+
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -70,6 +84,12 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
     def get_queryset(self):
         """Разрешить редактирование только автору"""
         return super().get_queryset().filter(author=self.request.user)
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.author != self.request.user and not self.request.user.is_staff:
+            raise Http404
+        return self.object
 
 
 

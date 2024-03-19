@@ -12,13 +12,11 @@
 <div class="container">
     <div class="row text-center">
 
-        {% if perms.catalog.add_product %}
         <div class="col-12 mb-5">
             <a class="btn btn-outline-primary" href="{% url 'catalog:create_product' %}">
                 Добавить продукт
             </a>
         </div>
-        {% endif %}
 
         {% for object in object_list %}
 
@@ -38,32 +36,23 @@
                     </p>
 
 
-                    {% if perms.catalog.view_product %}
+
                     <a href="/view/{{object.pk}}">
                         <button class="btn btn-sg btn-outline-primary mb-2">Cмотреть</button>
                     </a>
-                    {% endif %}
 
 
-                    {% if perms.catalog.change_product %}
-                    {% if object.author == user %}
                     <a href="{% url 'catalog:update_product' object.pk %}">
                         <button class="btn btn-sg  btn-outline-primary mb-2">Править</button>
                     </a>
 
 
-                    {% endif %}
-                    {% endif %}
-
-                    {{object.author}}
-                    {{user}}
 
 
-                    {% if perms.catalog.delete_product %}
+
                     <a href="{% url 'catalog:delete_product' object.pk %}">
                         <button class="btn btn-sg btn-outline-primary mb-2">Удалить</button>
                     </a>
-                    {% endif %}
 
                 </div>
 
@@ -79,6 +68,10 @@
 
                     <p>Автор: </p>
                     <p>{{object.author|default:'без автора' }} </p>
+
+                    <p>Статус публикации: </p>
+                    <p>{{object.is_published}}</p>
+
 
 
                 </div>
