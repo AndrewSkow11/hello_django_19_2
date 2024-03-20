@@ -13,7 +13,7 @@ from django.views.generic import (
 )
 from catalog.forms import ProductForm, VersionForm
 from django.forms import inlineformset_factory
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 
 
 class ProductView(LoginRequiredMixin, ListView):
@@ -64,6 +64,9 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     # permission_required = "catalog.change_product"
     form_class = ProductForm
+
+    def test_func(self):
+        return self.request.user.has_perm('catalog.set_published_status', "set_category", "set_description")
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)

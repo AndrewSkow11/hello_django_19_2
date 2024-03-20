@@ -49,6 +49,14 @@ class Product(models.Model):
 
     is_published = models.BooleanField(default=False, verbose_name='признак публикации')
 
+    class Meta:
+        permissions = [
+            ("set_published_status", "Can publish products"),
+            ("set_category", "Can change categories"),
+            ("set_description", "Can change discription"),
+        ]
+
+
     def __str__(self):
         # Строковое отображение объекта
         return (f'{self.nomination} '

@@ -36,5 +36,18 @@ has_perm()
 
 Внедрите в шаблоны проверку на владельца объекта и отображайте кнопки редактирования только пользователям, которые являются владельцами (если пользователь не наделен другими правами).
 
+Комменты
+
+Права добавлены через консоль python3 manage.py shell
+
+In [14]: from django.contrib.contenttypes.models import ContentType
+In [15]: content_type = ContentType.objects.get_for_model(User)
+In [16]: permission = Permission.objects.create(codename="set_published_status", name="Can publish products",  content_type=content_type)
+
+In [17]: permission = Permission.objects.create(codename="set_category", name="Can change categories",  content_type=content_type)
+
+In [18]: permission = Permission.objects.create(codename="set_description", name="Can change discription", content_type=content_type)
+
+
 
 
