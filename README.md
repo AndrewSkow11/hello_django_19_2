@@ -29,3 +29,9 @@ python3 manage.py create_superuser
 pip install --upgrade certifi
 ```
 
+- в случае неработоспособности с пустой базой данных
+```
+./manage.py migrate sites
+./manage.py migrate
+```
+

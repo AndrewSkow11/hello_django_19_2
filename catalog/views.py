@@ -11,7 +11,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from catalog.forms import ProductForm, VersionForm
+from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
 from django.forms import inlineformset_factory
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 
@@ -23,7 +23,7 @@ class ProductView(LoginRequiredMixin, ListView):
         queryset = super().get_queryset()
 
         if not self.request.user.is_staff:
-            queryset = queryset.filter(author=self.request.user, is_published=True)
+            queryset = queryset.filter(is_published=True)
 
         return queryset
 
@@ -35,6 +35,7 @@ class ProductView(LoginRequiredMixin, ListView):
 class ProductDetailView(LoginRequiredMixin,
                         DetailView):
     model = Product
+
     # permission_required = "catalog.view_product"
 
     def get_object(self, queryset=None):
@@ -62,17 +63,36 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
-    # permission_required = "catalog.change_product"
+    permission_required = "catalog.change_product"
     form_class = ProductForm
 
+    def get_form_class(self):
+        if self.request.user.is_staff:
+            return ProductModeratorForm
+        else:
+            return ProductForm
+
     def test_func(self):
-        return self.request.user.has_perm('catalog.set_published_status', "set_category", "set_description")
+        user = self.request.user
+        instance: Product = self.get_object()
+        custom_perms: tuple = (
+            'catalog.set_publication',
+            'catalog.set_category',
+            'catalog.set_description',
+        )
+
+        if user == instance.user:
+            return True
+        elif user.groups.filter(name='moderator') and user.has_perms(custom_perms):
+            return True
+
+        return self.handle_no_permission()
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
 
         if self.object.author != self.request.user and not self.request.user.is_staff:
-            raise Http404
+            raise Http404("Доступ закрыт")
 
         return self.object
 

@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 from users.models import NULLABLE
@@ -51,11 +52,12 @@ class Product(models.Model):
 
     class Meta:
         permissions = [
-            ("set_published_status", "Can publish products"),
+            ("set_publication", "Can publish products"),
             ("set_category", "Can change categories"),
-            ("set_description", "Can change discription"),
+            ("set_description", "Can change description"),
         ]
-
+        verbose_name = 'продукт'
+        verbose_name_plural = 'продукты'
 
     def __str__(self):
         # Строковое отображение объекта
@@ -68,10 +70,6 @@ class Product(models.Model):
                 f'{self.updated_at}'
                 f'{self.manufactured_at}'
                 f'{self.author}')
-
-    class Meta:
-        verbose_name = 'продукт'
-        verbose_name_plural = 'продукты'
 
 
 class Version(models.Model):
