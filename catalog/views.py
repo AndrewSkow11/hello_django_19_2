@@ -1,8 +1,9 @@
+from django.core.cache import cache
 from django.http import Http404
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 
-from catalog.models import Product, Version
+from catalog.models import Product, Version, Category
 from django.views.generic import (
     ListView,
     DetailView,
@@ -13,7 +14,11 @@ from django.views.generic import (
 )
 from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
 from django.forms import inlineformset_factory
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    UserPassesTestMixin,
+)
 
 
 class ProductView(LoginRequiredMixin, ListView):
@@ -32,8 +37,7 @@ class ProductView(LoginRequiredMixin, ListView):
         return Version.objects.all()
 
 
-class ProductDetailView(LoginRequiredMixin,
-                        DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
 
     # permission_required = "catalog.view_product"
@@ -76,14 +80,14 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         user = self.request.user
         instance: Product = self.get_object()
         custom_perms: tuple = (
-            'catalog.set_publication',
-            'catalog.set_category',
-            'catalog.set_description',
+            "catalog.set_publication",
+            "catalog.set_category",
+            "catalog.set_description",
         )
 
         if user == instance.user:
             return True
-        elif user.groups.filter(name='moderator') and user.has_perms(custom_perms):
+        elif user.groups.filter(name="moderator") and user.has_perms(custom_perms):
             return True
 
         return self.handle_no_permission()
@@ -139,3 +143,29 @@ class ContactView(View):
 
     def post(self, request, *args, **kwargs):
         return render(request, "catalog/not_available.html")
+
+
+def categories(request):
+    key = 'category_list'
+    category_list = cache.get(key)
+
+    if category_list is None:
+        category_list = Category.objects.all()
+        cache.set(key, category_list)
+
+    context = {
+        'object_list': category_list,
+        'title': "Все категории продуктов"
+    }
+
+    return render(request, 'catalog/categories.html', context)
+
+
+def category_products(request, pk):
+    category_item = Category.objects.get(pk=pk)
+    context = {
+        'object_list': Product.objects.filter(category_id=pk),
+        'title': f'Продкуты категории {category_item.nomination}'
+    }
+
+    return render(request, 'catalog/product_list.html', context)

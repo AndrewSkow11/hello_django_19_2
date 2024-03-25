@@ -1,6 +1,11 @@
 from django.urls import reverse_lazy, reverse
-from django.views.generic import (CreateView, ListView, DetailView,
-                                  DeleteView, UpdateView)
+from django.views.generic import (
+    CreateView,
+    ListView,
+    DetailView,
+    DeleteView,
+    UpdateView,
+)
 from pytils.translit import slugify
 
 from blog.models import Note
@@ -10,13 +15,13 @@ from blog.models import Note
 class NoteCreateView(CreateView):
     model = Note
     fields = [
-        'header',
-        'slug',
-        'content',
-        'preview',
-        'is_published',
+        "header",
+        "slug",
+        "content",
+        "preview",
+        "is_published",
     ]
-    success_url = reverse_lazy('blog:list')
+    success_url = reverse_lazy("blog:list")
 
     # (django_env)
     # andrejskovorodnikov @ MacBook - Air - Andrej
@@ -36,11 +41,11 @@ class NoteCreateView(CreateView):
 class NoteUpdateView(UpdateView):
     model = Note
     fields = [
-        'header',
-        'slug',
-        'content',
-        'preview',
-        'is_published',
+        "header",
+        "slug",
+        "content",
+        "preview",
+        "is_published",
     ]
 
     def form_valid(self, form):
@@ -52,14 +57,14 @@ class NoteUpdateView(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('blog:detail_view', args=[self.kwargs.get('pk')])
+        return reverse("blog:detail_view", args=[self.kwargs.get("pk")])
 
     # success_url = reverse_lazy('blog:list')
 
 
 class NoteDeleteView(DeleteView):
     model = Note
-    success_url = reverse_lazy('blog:list')
+    success_url = reverse_lazy("blog:list")
 
 
 class NoteListView(ListView):

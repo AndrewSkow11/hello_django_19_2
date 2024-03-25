@@ -1,5 +1,8 @@
-from django.contrib.auth.forms import (UserCreationForm,
-                                       PasswordResetForm, SetPasswordForm)
+from django.contrib.auth.forms import (
+    UserCreationForm,
+    PasswordResetForm,
+    SetPasswordForm,
+)
 
 from users.models import User
 from catalog.forms import StyleFormMixin
@@ -8,7 +11,11 @@ from catalog.forms import StyleFormMixin
 class UserForm(StyleFormMixin, UserCreationForm):
     class Meta:
         model = User
-        fields = ('email', 'password1', 'password2',)
+        fields = (
+            "email",
+            "password1",
+            "password2",
+        )
 
 
 class UserForgotPasswordForm(PasswordResetForm):
@@ -22,10 +29,9 @@ class UserForgotPasswordForm(PasswordResetForm):
         """
         super().__init__(*args, **kwargs)
         for field in self.fields:
-            self.fields[field].widget.attrs.update({
-                'class': 'form-control',
-                'autocomplete': 'off'
-            })
+            self.fields[field].widget.attrs.update(
+                {"class": "form-control", "autocomplete": "off"}
+            )
 
 
 class UserSetNewPasswordForm(SetPasswordForm):
@@ -39,7 +45,6 @@ class UserSetNewPasswordForm(SetPasswordForm):
         """
         super().__init__(*args, **kwargs)
         for field in self.fields:
-            self.fields[field].widget.attrs.update({
-                'class': 'form-control',
-                'autocomplete': 'off'
-            })
+            self.fields[field].widget.attrs.update(
+                {"class": "form-control", "autocomplete": "off"}
+            )

@@ -6,14 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0002_rename_nomination_note_header'),
+        ("blog", "0002_rename_nomination_note_header"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='note',
-            name='count_view',
-            field=models.IntegerField(default=0,
-                                      verbose_name='количество просмотров'),
+            model_name="note",
+            name="count_view",
+            field=models.IntegerField(default=0, verbose_name="количество просмотров"),
         ),
     ]

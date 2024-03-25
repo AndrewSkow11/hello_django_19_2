@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('catalog', '0004_alter_version_is_current'),
+        ("catalog", "0004_alter_version_is_current"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='version',
-            name='number',
-            field=models.IntegerField(verbose_name='номер версии'),
+            model_name="version",
+            name="number",
+            field=models.IntegerField(verbose_name="номер версии"),
         ),
     ]

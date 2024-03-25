@@ -14,7 +14,7 @@ class Command(BaseCommand):
             data = json.load(f)
 
         for item in data:
-            if item['model'] == 'catalog.category':
+            if item["model"] == "catalog.category":
                 categories_list.append(item)
 
         return categories_list
@@ -29,7 +29,7 @@ class Command(BaseCommand):
             data = json.load(f)
 
         for item in data:
-            if item['model'] == 'catalog.product':
+            if item["model"] == "catalog.product":
                 products_list.append(item)
 
         return products_list
@@ -48,25 +48,28 @@ class Command(BaseCommand):
         # для получения информации об одном объекте
         for category_item in Command.json_read_categories():
             category_for_create.append(
-                Category(pk=category_item['pk'],
-                         nomination=category_item['fields']['nomination'],
-                         description=category_item['fields']['description'],
-                         ))
+                Category(
+                    pk=category_item["pk"],
+                    nomination=category_item["fields"]["nomination"],
+                    description=category_item["fields"]["description"],
+                )
+            )
 
         Category.objects.bulk_create(category_for_create)
 
         for product in Command.json_read_products():
             product_for_create.append(
-                Product(pk=product['pk'],
-                        nomination=product['fields']['nomination'],
-                        description=product['fields']['description'],
-                        imagine_url=product['fields']['imagine_url'],
-                        category=Category.objects.get(
-                            pk=product['fields']['category']),
-                        price=product['fields']['price'],
-                        created_at=product['fields']['created_at'],
-                        updated_at=product['fields']['updated_at'],
-                        manufactured_at=product['fields']['manufactured_at']
-                        ))
+                Product(
+                    pk=product["pk"],
+                    nomination=product["fields"]["nomination"],
+                    description=product["fields"]["description"],
+                    imagine_url=product["fields"]["imagine_url"],
+                    category=Category.objects.get(pk=product["fields"]["category"]),
+                    price=product["fields"]["price"],
+                    created_at=product["fields"]["created_at"],
+                    updated_at=product["fields"]["updated_at"],
+                    manufactured_at=product["fields"]["manufactured_at"],
+                )
+            )
 
         Product.objects.bulk_create(product_for_create)

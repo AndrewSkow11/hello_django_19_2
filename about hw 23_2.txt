@@ -1,0 +1,9 @@
+brew install redis
+pip install redis
+
+https://docs.djangoproject.com/en/5.0/topics/cache/
+
+After installing redis, type from terminal:
+
+redis-server
+And Redis-Server will be started

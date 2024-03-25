@@ -7,35 +7,46 @@ class StyleFormMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            if field_name == 'is_current' or field_name == 'is_published':
-                field.widget.attrs['class'] = 'form-check-input'
+            if field_name == "is_current" or field_name == "is_published":
+                field.widget.attrs["class"] = "form-check-input"
 
             else:
-                field.widget.attrs['class'] = 'form-control'
+                field.widget.attrs["class"] = "form-control"
 
 
 class ProductForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Product
-        exclude = ('author', )
+        exclude = ("author",)
 
-    stop_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево',
-                  'бесплатно', 'обман', 'полиция', 'радар']
+    stop_words = [
+        "казино",
+        "криптовалюта",
+        "крипта",
+        "биржа",
+        "дешево",
+        "бесплатно",
+        "обман",
+        "полиция",
+        "радар",
+    ]
 
     def clean_nomination(self):
-        nomination = self.cleaned_data['nomination']
+        nomination = self.cleaned_data["nomination"]
         for word in self.stop_words:
             if word in nomination:
-                raise forms.ValidationError(f'Запрещено использовать'
-                                            f' {self.stop_words}')
+                raise forms.ValidationError(
+                    f"Запрещено использовать" f" {self.stop_words}"
+                )
         return nomination
 
     def clean_description(self):
-        description = self.cleaned_data['description']
+        description = self.cleaned_data["description"]
         for word in self.stop_words:
             if word in description:
-                raise forms.ValidationError(f'Запрещено использовать'
-                                            f' {self.stop_words}')
+                raise forms.ValidationError(
+                    f"Запрещено использовать" f" {self.stop_words}"
+                )
 
         return description
 
@@ -43,14 +54,16 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
 class VersionForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Version
-        fields = '__all__'
+        fields = "__all__"
 
-        name = forms.CharField(widget=forms.TextInput(
-            attrs={"class": "myfield"}))
+        name = forms.CharField(widget=forms.TextInput(attrs={"class": "myfield"}))
 
 
 class ProductModeratorForm(StyleFormMixin, forms.ModelForm):
-
     class Meta:
         model = Product
-        fields = ('description', 'category', 'is_published', )
+        fields = (
+            "description",
+            "category",
+            "is_published",
+        )

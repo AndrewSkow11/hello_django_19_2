@@ -2,8 +2,7 @@ from django.contrib.auth import login
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
-from django.contrib.auth.views import (PasswordResetView,
-                                       PasswordResetConfirmView)
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sites.models import Site
 from django.shortcuts import redirect
@@ -23,7 +22,7 @@ from users.models import User
 
 # Create your views here.
 class LoginView(BaseLoginView):
-    template_name = 'users/login.html'
+    template_name = "users/login.html"
 
 
 class LogoutView(BaseLogoutView):
@@ -32,45 +31,49 @@ class LogoutView(BaseLogoutView):
 
 class UserForgotPasswordView(SuccessMessageMixin, PasswordResetView):
     """Представление по сбросу пароля по почте"""
+
     form_class = UserForgotPasswordForm
-    template_name = 'users/user_password_reset.html'
-    success_url = reverse_lazy('catalog:home')
-    success_message = ('Письмо с инструкцией по в'
-                       'восстановлению пароля отправлено на ваш email')
-    subject_template_name = 'users/password_subject_reset_mail.txt'
-    email_template_name = 'users/password_reset_mail.html'
+    template_name = "users/user_password_reset.html"
+    success_url = reverse_lazy("catalog:home")
+    success_message = (
+        "Письмо с инструкцией по в" "восстановлению пароля отправлено на ваш email"
+    )
+    subject_template_name = "users/password_subject_reset_mail.txt"
+    email_template_name = "users/password_reset_mail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Запрос на восстановление пароля'
+        context["title"] = "Запрос на восстановление пароля"
         return context
 
 
-class UserPasswordResetConfirmView(SuccessMessageMixin,
-                                   PasswordResetConfirmView):
+class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView):
     """Представление установки нового пароля"""
+
     form_class = UserSetNewPasswordForm
-    template_name = 'users/user_password_set_new.html'
-    success_url = reverse_lazy('catalog:home')
-    success_message = 'Пароль успешно изменен. Можете авторизоваться на сайте.'
+    template_name = "users/user_password_set_new.html"
+    success_url = reverse_lazy("catalog:home")
+    success_message = "Пароль успешно изменен. Можете авторизоваться на сайте."
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Установить новый пароль'
+        context["title"] = "Установить новый пароль"
         return context
 
 
 # далее контроллеры для подтверждения почты
 
+
 class RegisterView(CreateView):
     """Представление регистрации на сайте с формой регистрации"""
+
     form_class = UserForm
-    success_url = reverse_lazy('catalog:home')
-    template_name = 'users/register.html'
+    success_url = reverse_lazy("catalog:home")
+    template_name = "users/register.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Регистрация на сайте'
+        context["title"] = "Регистрация на сайте"
         return context
 
     def form_valid(self, form):
@@ -80,19 +83,20 @@ class RegisterView(CreateView):
         # Функционал для отправки письма и генерации токена
         token = default_token_generator.make_token(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
-        activation_url = reverse_lazy('users:confirm_email',
-                                      kwargs={'uidb64': uid, 'token': token})
+        activation_url = reverse_lazy(
+            "users:confirm_email", kwargs={"uidb64": uid, "token": token}
+        )
         current_site = Site.objects.get_current().domain
         send_mail(
-            subject='Подтвердите свой электронный адрес',
-            message=f'Пожалуйста, перейдите по следующей ссылке, '
-                    f'чтобы подтвердить свой адрес электронной '
-                    f'почты: http://{current_site}{activation_url}',
+            subject="Подтвердите свой электронный адрес",
+            message=f"Пожалуйста, перейдите по следующей ссылке, "
+            f"чтобы подтвердить свой адрес электронной "
+            f"почты: http://{current_site}{activation_url}",
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[user.email],
             fail_silently=False,
         )
-        return redirect('users:email_confirmation_sent')
+        return redirect("users:email_confirmation_sent")
 
 
 class UserConfirmEmailView(View):
@@ -103,38 +107,37 @@ class UserConfirmEmailView(View):
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
 
-        if (user is not None and default_token_generator.check_token(user,
-                                                                     token)):
+        if user is not None and default_token_generator.check_token(user, token):
             user.is_active = True
             user.save()
             login(request, user)
-            return redirect('users:email_confirmed')
+            return redirect("users:email_confirmed")
         else:
-            return redirect('users:email_confirmation_failed')
+            return redirect("users:email_confirmation_failed")
 
 
 class EmailConfirmationSentView(TemplateView):
-    template_name = 'users/email_confirmation_sent.html'
+    template_name = "users/email_confirmation_sent.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Письмо активации отправлено'
+        context["title"] = "Письмо активации отправлено"
         return context
 
 
 class EmailConfirmedView(TemplateView):
-    template_name = 'users/email_confirmed.html'
+    template_name = "users/email_confirmed.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Ваш электронный адрес активирован'
+        context["title"] = "Ваш электронный адрес активирован"
         return context
 
 
 class EmailConfirmationFailedView(TemplateView):
-    template_name = 'users/email_confirmation_failed.html'
+    template_name = "users/email_confirmation_failed.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Ваш электронный адрес не активирован'
+        context["title"] = "Ваш электронный адрес не активирован"
         return context
