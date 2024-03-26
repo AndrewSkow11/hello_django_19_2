@@ -18,7 +18,8 @@ urlpatterns = [
     path("", LoginView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
     path("register/", RegisterView.as_view(), name="register"),
-    path("password-reset/", UserForgotPasswordView.as_view(), name="password_reset"),
+    path("password-reset/", UserForgotPasswordView.as_view(),
+         name="password_reset"),
     path(
         "set-new-password/<uidb64>/<token>/",
         UserPasswordResetConfirmView.as_view(),
@@ -34,7 +35,8 @@ urlpatterns = [
         UserConfirmEmailView.as_view(),
         name="confirm_email",
     ),
-    path("email-confirmed/", EmailConfirmedView.as_view(), name="email_confirmed"),
+    path("email-confirmed/", EmailConfirmedView.as_view(),
+         name="email_confirmed"),
     path(
         "confirm-email-failed/",
         EmailConfirmationFailedView.as_view(),

@@ -1,5 +1,4 @@
 from django.contrib.auth.decorators import login_required
-from django.core.cache import cache
 from django.http import Http404
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
@@ -17,11 +16,9 @@ from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
 from django.forms import inlineformset_factory
 from django.contrib.auth.mixins import (
     LoginRequiredMixin,
-    PermissionRequiredMixin,
-    UserPassesTestMixin,
 )
 
-from config import settings
+from catalog.services import get_categories_cache
 
 
 class ProductView(LoginRequiredMixin, ListView):
@@ -48,7 +45,8 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
 
-        if self.object.author != self.request.user and not self.request.user.is_staff:
+        if (self.object.author != self.request.user and
+                not self.request.user.is_staff):
             raise Http404
 
         return self.object
@@ -90,7 +88,8 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 
         if user == instance.user:
             return True
-        elif user.groups.filter(name="moderator") and user.has_perms(custom_perms):
+        elif (user.groups.filter(name="moderator") and
+              user.has_perms(custom_perms)):
             return True
 
         return self.handle_no_permission()
@@ -98,13 +97,15 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
 
-        if self.object.author != self.request.user and not self.request.user.is_staff:
+        if (self.object.author != self.request.user and
+                not self.request.user.is_staff):
             raise Http404("Доступ закрыт")
 
         return self.object
 
     def get_success_url(self, *args, **kwargs):
-        return reverse("catalog:update_product", args=[self.get_object().pk])
+        return reverse("catalog:update_product",
+                       args=[self.get_object().pk])
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -149,29 +150,19 @@ class ContactView(View):
 
 
 def categories(request):
-    if settings.CACHE_ENABLED:
-        key = 'category_list'
-        category_list = cache.get(key)
-
-        if category_list is None:
-            category_list = Category.objects.all()
-            cache.set(key, category_list)
-    else:
-        category_list = Category.objects.all()
     context = {
-        'object_list': category_list,
-        'title': "Все категории продуктов"
+        "object_list": get_categories_cache(),
+        "title": "Все категории продуктов",
     }
-
-    return render(request, 'catalog/categories.html', context)
+    return render(request, "catalog/categories.html", context)
 
 
 @login_required
 def category_products(request, pk):
     category_item = Category.objects.get(pk=pk)
     context = {
-        'object_list': Product.objects.filter(category_id=pk),
-        'title': f'Продкуты категории {category_item.nomination}'
+        "object_list": Product.objects.filter(category_id=pk),
+        "title": f"Продкуты категории {category_item.nomination}",
     }
 
-    return render(request, 'catalog/product_list.html', context)
+    return render(request, "catalog/product_list.html", context)

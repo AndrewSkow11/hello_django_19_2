@@ -56,7 +56,8 @@ class VersionForm(StyleFormMixin, forms.ModelForm):
         model = Version
         fields = "__all__"
 
-        name = forms.CharField(widget=forms.TextInput(attrs={"class": "myfield"}))
+        name = (forms.
+                CharField(widget=forms.TextInput(attrs={"class": "myfield"})))
 
 
 class ProductModeratorForm(StyleFormMixin, forms.ModelForm):

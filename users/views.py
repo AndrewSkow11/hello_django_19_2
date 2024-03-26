@@ -2,7 +2,8 @@ from django.contrib.auth import login
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
-from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
+from django.contrib.auth.views import (PasswordResetView,
+                                       PasswordResetConfirmView)
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sites.models import Site
 from django.shortcuts import redirect
@@ -36,7 +37,8 @@ class UserForgotPasswordView(SuccessMessageMixin, PasswordResetView):
     template_name = "users/user_password_reset.html"
     success_url = reverse_lazy("catalog:home")
     success_message = (
-        "Письмо с инструкцией по в" "восстановлению пароля отправлено на ваш email"
+        "Письмо с инструкцией по "
+        "восстановлению пароля отправлено на ваш email"
     )
     subject_template_name = "users/password_subject_reset_mail.txt"
     email_template_name = "users/password_reset_mail.html"
@@ -47,13 +49,15 @@ class UserForgotPasswordView(SuccessMessageMixin, PasswordResetView):
         return context
 
 
-class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView):
+class UserPasswordResetConfirmView(SuccessMessageMixin,
+                                   PasswordResetConfirmView):
     """Представление установки нового пароля"""
 
     form_class = UserSetNewPasswordForm
     template_name = "users/user_password_set_new.html"
     success_url = reverse_lazy("catalog:home")
-    success_message = "Пароль успешно изменен. Можете авторизоваться на сайте."
+    success_message = ("Пароль успешно изменен. "
+                       "Можете авторизоваться на сайте.")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -107,7 +111,8 @@ class UserConfirmEmailView(View):
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
 
-        if user is not None and default_token_generator.check_token(user, token):
+        if (user is not None
+                and default_token_generator.check_token(user, token)):
             user.is_active = True
             user.save()
             login(request, user)

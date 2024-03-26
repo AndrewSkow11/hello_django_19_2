@@ -25,8 +25,10 @@ class Migration(migrations.Migration):
                     "nomination",
                     models.CharField(max_length=150, verbose_name="заголовок"),
                 ),
-                ("slug", models.CharField(max_length=170, verbose_name="транслит")),
-                ("content", models.TextField(verbose_name="содержимое заметки")),
+                ("slug", models.CharField(max_length=170,
+                                          verbose_name="транслит")),
+                ("content", models.TextField(
+                    verbose_name="содержимое заметки")),
                 (
                     "preview",
                     models.ImageField(

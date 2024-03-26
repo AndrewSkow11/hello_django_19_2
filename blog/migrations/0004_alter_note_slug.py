@@ -14,7 +14,8 @@ class Migration(migrations.Migration):
             model_name="note",
             name="slug",
             field=models.CharField(
-                blank=True, max_length=170, null=True, verbose_name="транслит (слаг)"
+                blank=True, max_length=170, null=True,
+                verbose_name="транслит (слаг)"
             ),
         ),
     ]

@@ -13,7 +13,8 @@ class Migration(migrations.Migration):
             model_name="product",
             name="manufactured_at",
             field=models.DateTimeField(
-                blank=True, null=True, verbose_name="Дата производства " "продукта"
+                blank=True, null=True,
+                verbose_name="Дата производства " "продукта"
             ),
         ),
     ]

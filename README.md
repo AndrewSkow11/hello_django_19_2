@@ -35,3 +35,11 @@ pip install --upgrade certifi
 ./manage.py migrate
 ```
 
+Дополнения после работы 23_2
+
+```commandline
+brew install redis
+pip install redis
+
+redis-server
+```

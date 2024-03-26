@@ -64,7 +64,8 @@ class Command(BaseCommand):
                     nomination=product["fields"]["nomination"],
                     description=product["fields"]["description"],
                     imagine_url=product["fields"]["imagine_url"],
-                    category=Category.objects.get(pk=product["fields"]["category"]),
+                    category=Category.objects.get(
+                        pk=product["fields"]["category"]),
                     price=product["fields"]["price"],
                     created_at=product["fields"]["created_at"],
                     updated_at=product["fields"]["updated_at"],

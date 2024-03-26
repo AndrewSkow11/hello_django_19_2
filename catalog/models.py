@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 from users.models import NULLABLE
@@ -25,16 +24,19 @@ class Product(models.Model):
     description = models.TextField(verbose_name="описание")
     # Изображение (превью)
     imagine_url = models.ImageField(
-        upload_to="products/", verbose_name="изображение", null=True, blank=True
+        upload_to="products/", verbose_name="изображение", null=True,
+        blank=True
     )
     # Категория
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     # Цена за покупку
     price = models.DecimalField(decimal_places=3, max_digits=10)
     # Дата создания (записи в БД)
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="дата создания")
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name="дата создания")
     # Дата последнего изменения (записи в БД)
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="дата изменения")
+    updated_at = models.DateTimeField(auto_now=True,
+                                      verbose_name="дата изменения")
 
     # manufactured_at
     manufactured_at = models.DateTimeField(
@@ -48,7 +50,8 @@ class Product(models.Model):
         verbose_name="автор",
     )
 
-    is_published = models.BooleanField(default=False, verbose_name="признак публикации")
+    is_published = models.BooleanField(default=False,
+                                       verbose_name="признак публикации")
 
     class Meta:
         permissions = [

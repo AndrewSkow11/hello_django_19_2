@@ -24,11 +24,13 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "nomination",
-                    models.CharField(max_length=150, verbose_name="наименование"),
+                    models.CharField(max_length=150,
+                                     verbose_name="наименование"),
                 ),
                 (
                     "description",
-                    models.CharField(max_length=150, verbose_name="описание"),
+                    models.CharField(max_length=150,
+                                     verbose_name="описание"),
                 ),
             ],
             options={
@@ -50,7 +52,8 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "nomination",
-                    models.CharField(max_length=150, verbose_name="наименование"),
+                    models.CharField(max_length=150,
+                                     verbose_name="наименование"),
                 ),
                 ("description", models.TextField(verbose_name="описание")),
                 (
@@ -62,7 +65,8 @@ class Migration(migrations.Migration):
                         verbose_name="изображение",
                     ),
                 ),
-                ("price", models.DecimalField(decimal_places=3, max_digits=10)),
+                ("price", models.DecimalField(decimal_places=3,
+                                              max_digits=10)),
                 (
                     "created_at",
                     models.DateTimeField(
@@ -71,7 +75,8 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "updated_at",
-                    models.DateTimeField(auto_now=True, verbose_name="дата изменения"),
+                    models.DateTimeField(auto_now=True,
+                                         verbose_name="дата изменения"),
                 ),
                 (
                     "category",
