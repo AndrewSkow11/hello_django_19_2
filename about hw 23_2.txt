@@ -1,7 +1,0 @@
-brew install redis
-pip install redis
-
-
-After installing redis, type from terminal:
-redis-server
-And Redis-Server will be started
