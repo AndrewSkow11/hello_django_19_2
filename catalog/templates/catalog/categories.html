@@ -2,6 +2,12 @@
 
 {% block content %}
 
+<div class="col-12 mb-5 m-2">
+    <a class="btn btn-outline-primary" href="{% url 'catalog:categories' %}">
+        Категории продуктов
+    </a>
+</div>
+
 
 {% for object in object_list %}
 <div class="card mb-4 box-shadow col-6 m-2 ">
@@ -14,7 +20,6 @@
     </div>
 </div>
 {% endfor %}
-
 
 
 {% endblock %}

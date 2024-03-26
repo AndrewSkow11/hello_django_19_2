@@ -154,7 +154,7 @@ SITE_ID = 1
 
 LOGIN_URL = "/users"
 
-CACHE_ENABLED = False
+CACHE_ENABLED = True
 
 CACHES = {
     "default": {

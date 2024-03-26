@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.http import Http404
 from django.shortcuts import render
@@ -19,6 +20,8 @@ from django.contrib.auth.mixins import (
     PermissionRequiredMixin,
     UserPassesTestMixin,
 )
+
+from config import settings
 
 
 class ProductView(LoginRequiredMixin, ListView):
@@ -146,13 +149,15 @@ class ContactView(View):
 
 
 def categories(request):
-    key = 'category_list'
-    category_list = cache.get(key)
+    if settings.CACHE_ENABLED:
+        key = 'category_list'
+        category_list = cache.get(key)
 
-    if category_list is None:
+        if category_list is None:
+            category_list = Category.objects.all()
+            cache.set(key, category_list)
+    else:
         category_list = Category.objects.all()
-        cache.set(key, category_list)
-
     context = {
         'object_list': category_list,
         'title': "Все категории продуктов"
@@ -161,6 +166,7 @@ def categories(request):
     return render(request, 'catalog/categories.html', context)
 
 
+@login_required
 def category_products(request, pk):
     category_item = Category.objects.get(pk=pk)
     context = {
